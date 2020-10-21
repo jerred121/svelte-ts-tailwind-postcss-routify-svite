@@ -1,5 +1,10 @@
 <script lang="ts">
-  import { url } from '@roxi/routify/runtime';
+	import {url, isActive, layout, page} from '@roxi/routify'
+	import SideNav from '../components/SideNav.svelte'
+// $page.parent.children
+	// console.log('page', $page)
+	// console.log('url', $url)
+	console.log('layout', $layout)
 </script>
 
 <style>
@@ -26,14 +31,24 @@
     justify-content: center;
     margin-top: 1rem;
     border-top: 1px solid gray;
-  }
+	}
+	.active {
+		font-weight: bold;
+	}
 </style>
 
-<div id="app">
+<div id="app" class="container">
   <nav>
-    <a href={$url('/mdsvex')}>mdsvex</a>
-  </nav>
-  <main>
+		<ul>
+			{#each $layout.children as { path, title }}
+				<li class:active={$isActive(path)}>
+						<a href={$url(path)}>{title}</a>
+				</li>
+			{/each}
+		</ul>
+	</nav>
+	<SideNav />
+  <main class="container">
     <slot />
   </main>
   <footer>footer</footer>

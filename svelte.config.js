@@ -1,12 +1,20 @@
-const path = require('path');
-const { mdsvex } = require('mdsvex');
-const { typescript } = require('svelte-preprocess');
+const preprocess = require('svelte-preprocess');
 module.exports = {
-  extensions: ['.svelte', '.svx'],
   preprocess: [
-    typescript(),
-    mdsvex({
-      layout: path.join(__dirname, 'src', 'layouts', 'MdsvexLayout.svelte'),
+    preprocess.typescript(),
+    preprocess({
+			defaults: { style: 'postcss' },
+			postcss: true,
+      typescript: false, // svite -ts injects it's own typescript preprocessor
     }),
   ],
-};
+}
+// const { postcss, typescript } = require('svelte-preprocess');
+// // TODO: may need a different config for prod builds
+// module.exports = {
+//   extensions: ['.svelte'],
+//   preprocess: [
+//     typescript(),
+//     postcss()
+//   ],
+// };
